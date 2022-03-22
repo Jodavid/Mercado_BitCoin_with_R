@@ -3,10 +3,10 @@ name: JodaScrapingMercadoBitCoin
 
 # Controles para execução do action.
 on: #[push]
-  #schedule:
-   # - cron:  '0 15 * * *'
-    push:
-      branches: [ master ]
+  schedule:
+    - cron:  '0 15 * * *'
+   # push:
+   #   branches: [ master ]
 
 jobs: 
   autoscrape:
@@ -35,6 +35,7 @@ jobs:
         R -e 'install.packages("TTR")'
         R -e 'install.packages("nnet")'
         R -e 'install.packages("telegram.bot")'
+        R -e 'install.packages("emojifont")'
     # Run R script
     - name: Scrape
       run: Rscript app.R
