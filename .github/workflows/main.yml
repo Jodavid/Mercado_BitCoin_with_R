@@ -3,10 +3,10 @@ name: JodaScrapingMercadoBitCoin
 
 # Controles para execução do action.
 on: #[push]
-  schedule:
-    - cron:  '0 15 * * *'
-   # push:
-   #   branches: [ master ]
+  #schedule:
+  #  - cron:  '0 15 * * *'
+    push:
+      branches: [ master ]
 
 jobs: 
   autoscrape:
