@@ -1,0 +1,50 @@
+# Scraping por Dia
+name: JodaScrapingMercadoBitCoin
+
+# Controles para execução do action.
+on: #[push]
+  schedule:
+    - cron:  '0 15 * * *'
+
+jobs: 
+  autoscrape:
+    # O tipo de executor no qual o trabalho será executado
+    runs-on: ubuntu-latest
+
+    # Carregar repo e instalar R
+    steps:
+    - uses: actions/checkout@master
+    - uses: r-lib/actions/setup-r@master
+      with:
+           r-version: '4.1.1'
+
+    # Setup R
+    - name: Install packages
+      run: |
+        sudo apt install -y libcurl4-openssl-dev
+        R -e 'install.packages("remotes")'
+        R -e 'install.packages("jsonlite")'
+        R -e 'install.packages("dplyr")'
+        R -e 'install.packages("rvest")'
+        R -e 'install.packages("lubridate")'
+        R -e 'install.packages("purrr")'
+        R -e 'install.packages("plyr")'
+        R -e 'install.packages("parallel")'
+        R -e 'install.packages("TTR")'
+        R -e 'install.packages("nnet")'
+        R -e 'install.packages("telegram.bot")'
+    # Run R script
+    - name: Scrape
+      run: Rscript app.R
+      
+ # Adicione novos arquivos na pasta de dados, confirme junto com outros arquivos modificados, empurre
+    - name: Commit files
+      run: |
+        git config --local user.name actions-user
+        git config --local user.email "actions@github.com"
+        git add data/*
+        git commit -am "GH ACTION Headlines $(date)"
+        git push origin master
+      env:
+        REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+        username: github-actions
