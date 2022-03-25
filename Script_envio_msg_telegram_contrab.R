@@ -34,6 +34,7 @@ texto <- paste(
       emojifont::emoji('moneybag')," Ganho 1%: R$",round(investir$ganho1p,4),"\n",
       emojifont::emoji('moneybag')," Ganho 2%: R$",round(investir$ganho2p,4),"\n",
       emojifont::emoji('moneybag')," Ganho 3%: R$",round(investir$ganho3p,4),"\n\n",
+      emojifont::emoji('clock2'),"Data:",format(Sys.Date(), "%d-%m-%Y"),"\n",
       emojifont::emoji('clock3'),"Hora:",format(Sys.time(), "%X"),"\n\n",
       "Até Logo!","\n"
       )

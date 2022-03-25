@@ -11,7 +11,7 @@ moedas <- unlist(criptos[1])
 Hoje <- Sys.Date()
 j=1
 #'--
-QutdeDias <- 30
+QutdeDias <- 2
 #'--
 while(j <= QutdeDias ){
   #' -----

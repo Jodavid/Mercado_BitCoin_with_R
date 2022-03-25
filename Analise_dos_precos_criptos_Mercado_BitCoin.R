@@ -65,7 +65,7 @@ serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[vec[i]]])
 #' --------
 #' AROON
 aroon <- aroon_series_iniciais(serie_p_analise)
-aroon <- subset(aroon,as.numeric(as.character(aroon[,2])) < 30 |
+aroon <- subset(aroon,as.numeric(as.character(aroon[,2])) < 30 &
                   as.numeric(as.character(aroon[,3])) > 70 )
 aroon <- aroon[order(as.numeric(as.character(aroon[,2])),decreasing = T),]
 colnames(aroon)[1] <- c("Cripto")
