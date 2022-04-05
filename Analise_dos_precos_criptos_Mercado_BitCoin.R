@@ -28,7 +28,7 @@ rows <- sapply(1:length(serie_p_analise), function(i){ return(nrow(serie_p_anali
 serie_p_analise <- subset(serie_p_analise, rows > 40 )
 #' -----------
 variance <- sapply(1:length(serie_p_analise), function(i){ return(var(serie_p_analise[[i]]$avg_price))})
-serie_p_analise <- subset(serie_p_analise, variance > 1e-5 )
+serie_p_analise <- subset(serie_p_analise, variance > 4 )
 #' -----------
 
 
@@ -46,7 +46,7 @@ serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[vec[i]]])
 #' --------
 #' RSI
 rsi <- rsi_series_iniciais(serie_p_analise)
-rsi <- subset(rsi, as.numeric(as.character(rsi[,2])) < 50) # Observar esse 35
+rsi <- subset(rsi, as.numeric(as.character(rsi[,2])) < 60) # Observar esse 35
 colnames(rsi) <- c("Cripto", "rsi", "dif_rsi","volume")
 #' --------
 vec <- attributes(rsi)$row.names
@@ -65,10 +65,13 @@ serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[vec[i]]])
 #' --------
 #' AROON
 aroon <- aroon_series_iniciais(serie_p_analise)
-aroon <- subset(aroon,as.numeric(as.character(aroon[,2])) < 30 &
-                  as.numeric(as.character(aroon[,3])) > 70 )
+aroon <- subset(aroon,as.numeric(as.character(aroon$aroonDn)) < 30 &
+                  as.numeric(as.character(aroon$aroonUp)) > 70 )
 aroon <- aroon[order(as.numeric(as.character(aroon[,2])),decreasing = T),]
 colnames(aroon)[1] <- c("Cripto")
+vec <- attributes(aroon)$row.names
+serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[vec[i]]])
+
 
 #' --------
 #' Price
@@ -81,6 +84,16 @@ investir <- merge(aroon,rsi,by="Cripto")
 investir <- merge(investir,macd,by="Cripto")
 investir <- merge(investir,price,by="Cripto")
 #' --------
+serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[ which(aroon$Cripto == investir$Cripto[i]) ]])
+
+#' #' --------
+#' # Calculate the mean and standard error
+#' l.model <- lm(serie_p_analise[[1]]$avg_price ~ 1)
+#' # Calculate the confidence interval
+#' levels <- confint(l.model, level=0.95)
+#' levels2 <- confint(l.model, level=0.97)
+#' levels3 <- confint(l.model, level=0.99)
+#' #' --------
 
 #' --------
 #' Valor de compra. stop loss e stop gain

@@ -72,6 +72,9 @@ redes_neurais_series_iniciais <- function(series){
   quant <- length(series)
   
   saida <- t(simplify2array(mclapply(1:quant, function(i){
+  #saida <- sapply(1:quant, function(i){
+    
+    print(i)
     
     data <- series[[i]]
     
@@ -111,6 +114,7 @@ redes_neurais_series_iniciais <- function(series){
     return(result)
     
   }, mc.cores=cores)))
+  #})
   
   
   saida <- data.frame(saida);
