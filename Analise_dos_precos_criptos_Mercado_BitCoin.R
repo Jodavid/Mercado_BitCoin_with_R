@@ -65,7 +65,7 @@ serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[vec[i]]])
 #' --------
 #' AROON
 aroon <- aroon_series_iniciais(serie_p_analise)
-aroon <- subset(aroon,as.numeric(as.character(aroon$aroonDn)) < 30 &
+aroon <- subset(aroon,as.numeric(as.character(aroon$aroonDn)) < 40 &
                   as.numeric(as.character(aroon$aroonUp)) > 70 )
 aroon <- aroon[order(as.numeric(as.character(aroon[,2])),decreasing = T),]
 colnames(aroon)[1] <- c("Cripto")
@@ -84,7 +84,7 @@ investir <- merge(aroon,rsi,by="Cripto")
 investir <- merge(investir,macd,by="Cripto")
 investir <- merge(investir,price,by="Cripto")
 #' --------
-serie_p_analise <- lapply(1:length(vec), function(i) serie_p_analise[[ which(aroon$Cripto == investir$Cripto[i]) ]])
+serie_p_analise <- lapply(1:nrow(investir), function(i) serie_p_analise[[ which(aroon$Cripto == investir$Cripto[i]) ]])
 
 #' #' --------
 #' # Calculate the mean and standard error
